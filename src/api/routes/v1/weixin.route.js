@@ -16,6 +16,6 @@ const router = express.Router();
 
 router
   .route('/user')
-  .get(validate(getUser), controller.getUser)
+  .get(validate(getUser), controller.getAccessToken, controller.getUser)
 
 module.exports = router;

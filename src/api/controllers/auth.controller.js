@@ -54,6 +54,10 @@ exports.login = async (req, res, next) => {
     if (captchaVerify(req, req.body.captcha)) {
       const { user, accessToken } = await User.findAndGenerateToken(req.body);
       const token = generateTokenResponse(user, accessToken);
+      if (req.body.openid) {
+        user.openid = req.body.openid;
+        await user.save().catch(e => next(e));
+      }
       const userTransformed = user.transform();
       return res.json({ token, user: userTransformed });
     } else {

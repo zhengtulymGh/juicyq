@@ -18,6 +18,10 @@ const roles = ['user', 'admin'];
  * @private
  */
 const userSchema = new mongoose.Schema({
+  openid: {
+    type: String,
+    unique: true,
+  },
   phone: {
     type: Number,
     match: [/^[1-9][0-9]{10}$/, 'The value of path {PATH} ({VALUE}) is not a valid mobile number.'],
@@ -193,7 +197,7 @@ userSchema.statics = {
       isPublic: true,
     };
     console.log('captcha', captcha)
-    if (captcha) {
+    if (captcha) { // captcha有可能是一个写死的固定值，在微信授权自动登录里面
       // if (user && await user.passwordMatches(password)) {
       //   return { user, accessToken: user.token() };
       // }
@@ -225,7 +229,7 @@ userSchema.statics = {
   list({
     page = 1, perPage = 30, nickName, phone,
   }) {
-    const options = omitBy({ nickName, phone }, isNil);
+    const options = omitBy({ nickName, phone, openid }, isNil);
 
     return this.find(options)
       .sort({ createdAt: -1 })
