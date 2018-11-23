@@ -10,6 +10,8 @@ const { handler: errorHandler } = require('../middlewares/error');
  */
 exports.load = async (req, res, next, id) => {
   try {
+    console.log('req.originalUrl', req.originalUrl)
+    console.log('load id', id)
     const user = await User.get(id);
     req.locals = { user };
     return next();

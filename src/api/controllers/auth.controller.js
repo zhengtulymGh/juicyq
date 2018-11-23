@@ -3,23 +3,22 @@ const User = require('../models/user.model');
 const { Score } = require('../models/score.model');
 const RefreshToken = require('../models/refreshToken.model');
 const moment = require('moment-timezone');
-const { jwtExpirationInterval } = require('../../config/vars');
-
 const svgCaptcha = require('svg-captcha');
 const captchaVerify = require('../utils/svgVerify');
+const { generateTokenResponse } = require('../utils/token');
 
-/**
-* Returns a formated object with tokens
-* @private
-*/
-function generateTokenResponse(user, accessToken) {
-  const tokenType = 'Bearer';
-  const refreshToken = RefreshToken.generate(user).token;
-  const expiresIn = moment().add(jwtExpirationInterval, 'minutes');
-  return {
-    tokenType, accessToken, refreshToken, expiresIn,
-  };
-}
+// /**
+// * Returns a formated object with tokens
+// * @private
+// */
+// function generateTokenResponse(user, accessToken) {
+//   const tokenType = 'Bearer';
+//   const refreshToken = RefreshToken.generate(user).token;
+//   const expiresIn = moment().add(jwtExpirationInterval, 'minutes');
+//   return {
+//     tokenType, accessToken, refreshToken, expiresIn,
+//   };
+// }
 
 /**
  * Returns jwt token if registration was successful

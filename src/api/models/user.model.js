@@ -114,7 +114,7 @@ userSchema.pre('save', async function save(next) {
 userSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'name', 'nickName', 'phone', 'avatar', 'gender', 'birthday', 'profession', 'deliveryAddress', 'createdAt'];
+    const fields = ['id', 'openid', 'name', 'nickName', 'phone', 'avatar', 'gender', 'birthday', 'profession', 'deliveryAddress', 'createdAt'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
@@ -227,7 +227,7 @@ userSchema.statics = {
    * @returns {Promise<User[]>}
    */
   list({
-    page = 1, perPage = 30, nickName, phone,
+    page = 1, perPage = 30, nickName, phone, openid
   }) {
     const options = omitBy({ nickName, phone, openid }, isNil);
 
