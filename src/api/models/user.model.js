@@ -86,6 +86,14 @@ const userSchema = new mongoose.Schema({
   timestamps: true,
 });
 
+userSchema.virtual('totalScore').get(function () {
+  let score = 0
+  this.score.forEach(item => {
+    score += item.value
+  })
+  return score;
+});
+
 /**
  * Add your
  * - pre-save hooks
@@ -114,7 +122,7 @@ userSchema.pre('save', async function save(next) {
 userSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'openid', 'name', 'nickName', 'phone', 'avatar', 'gender', 'birthday', 'profession', 'deliveryAddress', 'createdAt'];
+    const fields = ['id', 'openid', 'name', 'nickName', 'phone', 'avatar', 'gender', 'birthday', 'profession', 'deliveryAddress', 'totalScore', 'createdAt'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
