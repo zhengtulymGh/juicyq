@@ -7,6 +7,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const passport = require('passport');
 const routes = require('../api/routes/v1');
+const wxgzhRoutes = require('../pages/routes/wxgzh');
+const officialRoutes = require('../pages/routes/official');
 const { logs } = require('./vars');
 const strategies = require('./passport');
 const error = require('../api/middlewares/error');
@@ -55,8 +57,14 @@ passport.use('jwt', strategies.jwt);
 passport.use('facebook', strategies.facebook);
 passport.use('google', strategies.google);
 
+// 微信公众号
+app.use('/weixin/users', wxgzhRoutes);
+
 // mount api v1 routes
-app.use('/v1', routes);
+app.use('/api/v1', routes);
+
+// 官网
+app.use('/', officialRoutes);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(error.converter);
